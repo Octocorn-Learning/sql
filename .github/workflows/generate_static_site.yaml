@@ -1,0 +1,28 @@
+name: Generate static site
+on:
+  push:
+    branches:
+      - main
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: install reveal-md
+        run: npm install -g reveal-md
+      - name: generate static site
+        run: reveal-md ./cours --static --glob '*.slides.md'
+      - name: run the apply_theme bash script
+        run: bash ./apply_theme.sh
+      - name: remove index.html
+        run: rm ./_static/index.html
+      - name: rename 00_index.slides.html to index.html
+        run: mv ./_static/00_index.slides.html ./_static/index.html
+      - name: push to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          folder: ./_static
