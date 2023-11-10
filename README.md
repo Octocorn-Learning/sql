@@ -1,8 +1,10 @@
-# Nom du cours
+# SQL : Bases
 
 ## Description et objectifs 🎯
 
-<!--- Décrire le cours en quelques lignes -->
+Ce cours a pour objectif d'enseigner les bases du langage SQL.
+Nous parcourrons ensemble les différentes commandes permettant de créer, modifier et supprimer des tables, ainsi que d'insérer, modifier et supprimer des données.
+Sans oublier la conception et les bonnes pratiques.
 
 ## Exercices 💪
 
@@ -17,9 +19,12 @@ Pour chaque exercice, vous retrouverez trois niveaux de difficulté :
 
 ## Plan de cours 🗺️
 
-<!--- 
-- [ ] Chapitre
--->
+- [ ] [Présentation]()
+- [ ] [Création de BDD]()
+- [ ] [Jointures]()
+- [ ] [Fonctions]()
+- [ ] [Sous requêtes]()
+- [ ] [Conception d'une BDD]()
 
 ## Ressources 👜
 
