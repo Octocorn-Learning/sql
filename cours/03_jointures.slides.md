@@ -240,7 +240,7 @@ FROM eleves
 
 ### LEFT JOIN
 
-![LEFT JOIN](assets/left-join.png)
+![LEFT JOIN](assets/left-join.png) <!-- .element width="50%" -->
 
 - Retourne tous les éléments de la table de gauche
 - Les éléments sans correspondance dans la table de droite auront des valeurs `NULL`
@@ -305,7 +305,7 @@ WHERE classes.id IS NULL
 
 ### RIGHT JOIN
 
-![RIGHT JOIN](assets/right-join.png)
+![RIGHT JOIN](assets/right-join.png) <!-- .element width="50%" -->
 
 - Retourne tous les éléments de la table de droite
 - Les éléments sans correspondance dans la table de gauche auront des valeurs `NULL`
