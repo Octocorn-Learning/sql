@@ -10,4 +10,5 @@ contributors:
 # Index
 
 - [Présentation](01_presentation.slides.html)
-- [Création et commandes de base](02_creation_bdd.slides.html)
+- [Création et commandes de base](02_creation-bdd.slides.html)
+- [Requêtes de base](03_jointures.slides.html)
