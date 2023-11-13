@@ -21,7 +21,7 @@ Pour chaque exercice, vous retrouverez trois niveaux de difficulté :
 
 - [x] [Présentation]()
 - [x] [Création de BDD]()
-- [ ] [Jointures]()
+- [x] [Jointures]()
 - [ ] [Fonctions]()
 - [ ] [Sous requêtes]()
 - [ ] [Conception d'une BDD]()
