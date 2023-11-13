@@ -382,7 +382,6 @@ volumes:
   - Hostname : `127.0.0.1`
   - User : `user`
   - Password : `password`
-  - Default Schema : `db`
 
 > Si après avoir cliqué sur "Test Connection" tout est OK, validez !
 

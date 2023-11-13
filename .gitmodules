@@ -1,0 +1,3 @@
+[submodule "Espace Formateur"]
+	path = Espace Formateur
+	url = git@github.com:Octocorn-Learning/SQL-Formateur.git

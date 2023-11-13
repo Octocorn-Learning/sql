@@ -19,8 +19,8 @@ Pour chaque exercice, vous retrouverez trois niveaux de difficulté :
 
 ## Plan de cours 🗺️
 
-- [ ] [Présentation]()
-- [ ] [Création de BDD]()
+- [x] [Présentation]()
+- [x] [Création de BDD]()
 - [ ] [Jointures]()
 - [ ] [Fonctions]()
 - [ ] [Sous requêtes]()
