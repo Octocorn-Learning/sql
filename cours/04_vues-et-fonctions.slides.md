@@ -1,5 +1,5 @@
 ---
-title: Template
+title: Vues et Fonctions
 theme: solarized
 author: Alexandre Devos
 company: Octocorn

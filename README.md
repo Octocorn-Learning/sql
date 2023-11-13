@@ -19,12 +19,14 @@ Pour chaque exercice, vous retrouverez trois niveaux de difficulté :
 
 ## Plan de cours 🗺️
 
-- [x] [Présentation]()
-- [x] [Création de BDD]()
-- [x] [Jointures]()
-- [ ] [Fonctions]()
-- [ ] [Sous requêtes]()
+- [x] [Présentation](/cours/01_presentation.slides.md)
+- [x] [Création de BDD](/cours/02_creation-BDD.slides.md)
+- [x] [Jointures](/cours/03_jointures.slides.md)
+- [x] [Fonctions](/cours/04_fonctions.slides.md)
+- [x] [Sous requêtes](/cours/05_sous-requetes.slides.md)
 - [ ] [Conception d'une BDD]()
+- [ ] [Transactions]()
+- [ ] [Procédures stockées et Triggers]()
 
 ## Ressources 👜
 
