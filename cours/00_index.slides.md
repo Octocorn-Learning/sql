@@ -15,3 +15,5 @@ contributors:
 - [Vues et fonctions](04_vues-et-fonctions.slides.html)
 - [Sous-requêtes](05_sous-requetes.slides.html)
 - [Transactions](06_transactions.slides.html)
+- [Procédures stockées et Triggers](07_procedure-stockees-trigger.slides.html)
+- [Bonnes pratiques](08_bonnes-pratiques.slides.html)

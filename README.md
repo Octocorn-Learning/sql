@@ -24,9 +24,9 @@ Pour chaque exercice, vous retrouverez trois niveaux de difficulté :
 - [x] [Jointures](/cours/03_jointures.slides.md)
 - [x] [Fonctions](/cours/04_fonctions.slides.md)
 - [x] [Sous requêtes](/cours/05_sous-requetes.slides.md)
-- [ ] [Conception d'une BDD]()
 - [x] [Transactions](/cours/06_transactions.slides.md)
-- [ ] [Procédures stockées et Triggers]()
+- [x] [Procédures stockées et Triggers](/cours/07_procedure-stockees-trigger.slides.md)
+- [ ] [Bonnes pratiques]()
 
 ## Ressources 👜
 
