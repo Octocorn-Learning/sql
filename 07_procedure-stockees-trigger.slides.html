@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Procédures stockées et Triggers</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/solarized.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/base16/zenburn.css" />
+
+
+  <script type="text/javascript">
+      setTimeout(() => { 
+        fetch("https://raw.githubusercontent.com/Alex-Octocorn/logo/main/style.js") 
+          .then(script => script.text())
+          .then((script) => {
+            const head = document.querySelector("head");
+            const customCss = document.createElement("script");
+            customCss.type = "text/javascript";
+            customCss.appendChild(document.createTextNode(script));
+            head.appendChild(customCss);
+          });
+      });
+    </script></head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# SQL - Procédures stockées
+
+![SQL](./assets/sql.png) <!-- .element width="30%" align="left" -->
+
+![MySQL](./assets/mysql.png) <!-- .element width="30%" align="right" -->
+</script></section><section data-markdown><script type="text/template">
+## Procédure stockées
+
+### Définition
+
+- Une procédure stockée est une suite d'instructions SQL qui peut être appelée par un nom.
+
+- Elle peut prendre des paramètres en entrée et retourner des valeurs.
+
+- Elle peut être appelée depuis une application ou depuis une autre procédure stockée.
+
+> C'est une fonction, mais en SQL !
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Exemple
+
+```mysql
+## Remplacement du délimiteur
+DELIMITER |
+# Déclaration de la procédure
+CREATE PROCEDURE get_eleve_by_name
+    # Liste des variables
+    (IN name VARCHAR(45))
+# Début du code de la procédure
+BEGIN
+    SELECT nom, prenom
+    FROM eleves
+    WHERE nom = name;
+# Fin du code, et fin de l'instruction via le délimiteur
+END |
+# Remise du délimiteur par défaut
+DELIMITER ;
+
+# Appel du code
+CALL get_eleve_by_name('Europe');
+```
+
+> Exemple tiré de [sql.sh](https://sql.sh/cours/procedure-stockee)
+</script></section><section data-markdown><script type="text/template">
+## Procédures Stockées
+
+### `DELIMITER`
+
+- `DELIMITER` permet de définir un nouveau délimiteur pour les instructions SQL.
+
+- Par défaut, le délimiteur est `;`.
+
+- Il est nécessaire de changer le délimiteur pour pouvoir définir une procédure stockée.
+
+- Si nous ne le faisons pas, MySQL considérera que la procédure est terminée à la première instruction `;`.
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### `IN`, `OUT`, `INOUT`
+
+- `IN` : Paramètre d'entrée
+
+- `OUT` : Paramètre de sortie
+
+- `INOUT` : Paramètre d'entrée et de sortie
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Exemple plus complet
+
+Si nous voulons modifier la classe d'un élève
+
+```mysql
+DELIMITER |
+
+CREATE PROCEDURE change_classe
+    (IN name VARCHAR(45), IN classe VARCHAR(45), OUT classe_id INT)
+BEGIN
+    SELECT id INTO classe_id
+    FROM classes
+    WHERE nom = classe;
+
+    UPDATE eleves
+    SET classe_id = classe_id
+    WHERE nom = name;
+END |
+
+DELIMITER ;
+```
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Un peu plus que des `SELECT`
+
+- Les procédures stockées peuvent contenir des instructions `SELECT`, mais aussi `INSERT`, `UPDATE`, `DELETE`, ...
+
+- Elles peuvent aussi contenir des instructions de contrôle de flux (`IF`, `CASE`, ...)
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Exemple plus complet
+
+```mysql
+
+DELIMITER |
+
+CREATE PROCEDURE change_classe
+    (IN name VARCHAR(45), IN classe VARCHAR(45), OUT classe_id INT)
+BEGIN
+    SELECT id INTO classe_id
+    FROM classes
+    WHERE nom = classe;
+
+    UPDATE eleves
+    SET classe_id = classe_id
+    WHERE nom = name;
+
+    IF classe_id IS NULL THEN
+        INSERT INTO classes (nom, annee) VALUES (classe, YEAR(NOW()));
+        SELECT LAST_INSERT_ID() INTO classe_id;
+    END IF;
+END |
+
+DELIMITER ;
+```
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Les limites
+
+- Les procédures stockées ne sont pas portables !
+
+- Elles sont spécifiques à un SGBD (ici, MySQL)
+
+- Elles ne sont pas compatibles avec les autres SGBD
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Responsabilités
+
+- La responsabilité de la base de données est de stocker et de gérer les données.
+
+- La responsabilité de l'application est de gérer les traitements.
+
+- Les procédures stockées sont des traitements, et donc la responsabilité de l'application.
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Pourquoi les utiliser ?
+
+- Les procédures stockées peuvent **dépanner** en cas de problème d'application.
+
+- Elles peuvent être utiles pour les **extracts** de données manuelles, par exemple
+
+- Elles ne **doivent pas** se substituer à l'application (API)
+</script></section><section data-markdown><script type="text/template">
+## Procédures stockées
+
+### Les problèmes
+
+- Les procédures stockées sont **difficiles à débugger et maintenir**.
+
+- Elles alourdissent la base de données.
+
+- Si on change de SGBD, il faut **tout réécrire** !
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Triggers
+
+### Définition
+
+- Un trigger est un **événement** qui se déclenche lorsqu'une action est effectuée sur une table.
+
+- Il est possible de déclencher un trigger sur une action `INSERT`, `UPDATE` ou `DELETE`.
+
+- Il est possible de déclencher un trigger **avant** ou **après** l'action.
+
+</script></section><section data-markdown><script type="text/template">
+## Triggers
+
+### Syntaxe
+
+```mysql
+DELIMITER |
+
+CREATE TRIGGER [TRIGGER_NAME]
+[TRIGGER TIME] [TRIGGER EVENT]
+ON [TABLE]
+FOR EACH ROW
+[TRIGGER BODY]|
+
+DELIMITER ;
+```
+
+> Exemple tiré de [ce site](https://www.digitalocean.com/community/tutorials/how-to-manage-and-use-mysql-database-triggers-on-ubuntu-18-04-fr)
+</script></section><section data-markdown><script type="text/template">
+## Triggers
+
+### Exemple
+
+Vérifier si l'année de la classe est égale ou supérieure à l'année en cours
+
+```mysql
+DELIMITER |
+
+CREATE TRIGGER check_year
+BEFORE INSERT ON classes
+FOR EACH ROW
+BEGIN
+    IF YEAR(NEW.annee) < YEAR(NOW()) THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'L''année doit être égale ou supérieure à l''année en cours';
+    END IF;
+END |
+
+DELIMITER ;
+```
+</script></section><section data-markdown><script type="text/template">
+## Triggers
+
+### Les limites
+
+- Comme pour les procédures stockées, ils sont difficiles voir impossible à transférer d'un SGBD à un autre.
+
+- Ils sont difficiles à tester (car déclenchés par une action sur la base de données)
+
+- Ils sont difficiles à maintenir
+
+- Ils alourdissent la base de données
+</script></section><section data-markdown><script type="text/template">
+## Triggers
+
+### Toujours une question de responsabilité
+
+- Les triggers sont des traitements, et donc la responsabilité de l'application.
+
+- Ils ne doivent pas se substituer à l'application (API)
+</script></section><section data-markdown><script type="text/template">
+## Triggers
+
+### Quelques Use Cases
+
+Il y a tout de même quelques cas où les triggers peuvent être utiles :
+
+- Backup de données automatiques avant une modification
+
+- Gestion de larges volumes de données (lots)
+
+- Gestion de la sécurité (logs, ...)
+</script></section><section data-markdown><script type="text/template">
+## Triggers
+
+### En définitive
+
+- Les triggers en eux mêmes ne sont pas mauvais.
+
+- Ce qu'on en fait peut l'être !</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {}, queryOptions);
+    </script>
+
+    <script src="./_assets/theme.js"></script>
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Best Practices</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./dist/reset.css" />
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/solarized.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/base16/zenburn.css" />
+
+
+  <script type="text/javascript">
+      setTimeout(() => { 
+        fetch("https://raw.githubusercontent.com/Alex-Octocorn/logo/main/style.js") 
+          .then(script => script.text())
+          .then((script) => {
+            const head = document.querySelector("head");
+            const customCss = document.createElement("script");
+            customCss.type = "text/javascript";
+            customCss.appendChild(document.createTextNode(script));
+            head.appendChild(customCss);
+          });
+      });
+    </script></head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section ><section data-markdown><script type="text/template">
+
+# SQL - Bonnes pratiques
+
+![SQL](./assets/sql.png) <!-- .element width="30%" align="left" -->
+
+![MySQL](./assets/mysql.png) <!-- .element width="30%" align="right" -->
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Introduction
+
+- Sont listés ici un ensemble de bonnes pratiques
+
+- Elles ne sont pas exhaustives
+
+- Elles sont à adapter en fonction de votre contexte
+
+> Parfois, il faut savoir les contourner proprement !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Rédaction
+
+Utilisez des `MAJUSCULES` pour les mots-clés SQL.
+Utilisez des `minuscules` pour les noms de tables et de colonnes.
+
+```mysql
+SELECT nom, prenom
+FROM eleves
+WHERE nom = 'Bowie';
+```
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Nommage des colonnes
+
+Utilisez des noms de colonnes explicites et uniques : pas d'abréviations, pas de numéros.
+Plusieurs écoles : `snake_case`, `camelCase`, `PascalCase`.
+
+```mysql
+SELECT nom, prenom, date_naissance
+FROM eleves
+WHERE nom = 'Bowie';
+```
+
+> Restez constant !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Nommage des tables
+
+- Des noms explicites
+
+- Deux écoles : singulier ou pluriel
+
+> Soyez constant !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Alignement
+
+La lisibilité est primordiale !
+
+```mysql
+SELECT name, height, age, salary, CASE WHEN age<18 THEN "child" ELSE    
+"adult" END AS child_or_adult
+FROM People LEFT JOIN Income USING (name)
+WHERE height<=200 and age<=65
+```
+
+```mysql
+SELECT name,
+       height,
+       age,
+       salary,
+       CASE
+           WHEN age < 18 THEN "child"
+           ELSE "adult"
+           END AS child_or_adult
+FROM People
+         LEFT JOIN
+     Income USING (name)
+WHERE height <= 200
+  AND age <= 65
+```
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Mots réservés
+
+- Évitez les mots réservés comme noms de tables ou de colonnes
+
+- Si vous devez utiliser un mot réservé, entourez-le de backticks
+
+> Ou plus simples : ne le faites pas !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Commentaires
+
+- Commentez votre code s'il n'est pas évident
+
+- Favorisez d'abord le lisible, puis l'efficace
+
+> Vos commentaires doivent être cohérents !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Nombre de colonnes
+
+- Évitez les tables avec trop de colonnes
+
+- Trop de colonnes = problème de conception !
+
+> Maximum 10/15 colonnes !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Entités
+
+- Une table = une entité
+
+- Basez vous sur le modèle entité-association !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Types de données
+
+- Utilisez les bons types de données
+
+- Évitez les types `TEXT` et `BLOB` !
+
+> Utilisez les types de données les plus adaptés !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Images
+
+- Évitez de stocker des images dans la base de données !
+
+- Stockez plutôt le chemin vers l'image, qui pointe vers un serveur
+
+> Les images sont lourdes et ralentissent les requêtes !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Clefs primaires
+
+- Les index ne doivent pas être corrélés aux données !
+
+> Une clef purement informatique est souvent préférable à une clef purement sémantique.
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Index
+
+- N'ajoutez des index que si nécessaire !
+
+- N'en abusez pas !
+
+> Les index ralentissent les requêtes d'écriture !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### Transactions
+
+- Utilisez des transactions les plus courtes possibles !
+</script></section><section data-markdown><script type="text/template">
+## Bonnes pratiques
+
+### SELECT
+
+NE. FAITES. PAS. DE. `SELECT *` !
+
+> Trop lourd, trop lent, trop de données inutiles !
+</script></section><section data-markdown><script type="text/template">
+</script></section></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        slideNumber: true,
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {}, queryOptions);
+    </script>
+
+    <script src="./_assets/theme.js"></script>
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
